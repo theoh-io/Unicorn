@@ -39,7 +39,7 @@ class ExpTrack(BaseExp):
         self.act = 'silu'
         self.use_gn = True
         # backbone
-        self.backbone_name = "convnext"
+        self.backbone_name = "convnext_large"
         self.in_channels = [192, 384, 768]
         # embedding
         self.embed_dim = 128
@@ -124,6 +124,7 @@ class ExpTrack(BaseExp):
         if getattr(self, "model", None) is None:
             backbone = YOLOPAFPNNEW(self.depth, self.width, in_channels=self.in_channels, act=self.act, backbone_name=self.backbone_name, \
                 use_checkpoint=True)
+            #backbone=ConvNeXt()
             head = UnicornHead(self.num_classes, self.width, in_channels=self.in_channels, act=self.act, use_l1=self.always_l1, \
                 use_attention=self.use_attention, n_layer_att=self.n_layer_att, unshared_obj=self.unshared_obj, unshared_reg=self.unshared_reg, \
                 mot_weight=self.mot_weight, scale_all_mot=self.scale_all_mot, fuse_method=self.fuse_method, learnable_fuse=self.learnable_fuse)
@@ -159,7 +160,7 @@ class ExpTrack(BaseExp):
             filename = "Unicorn_outputs/%s/best_ckpt.pth" % self.pretrain_name
             ckpt_path = os.path.join(get_unicorn_datadir(), "..", filename)
             print("Loading COCO pretrained weights from %s" % ckpt_path)
-            state_dict = torch.load(ckpt_path, map_location='cpu')["model"]
+            state_dict = torch.load(ckpt_path)["model"] #, map_location='cpu'
             # Deal with SOT and MOT head pretrained parameters
             new_state_dict = {}
 

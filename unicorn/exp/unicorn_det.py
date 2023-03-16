@@ -121,8 +121,10 @@ class ExpDet(BaseExp):
                 self.model = convert_bn_model_to_gn(self.model, num_groups=16)
             if load_pretrain:
                 """load backbone pretrained model"""
-                filename = self.pretrained_name
+                #filename = self.pretrained_name
+                filename = "Unicorn_outputs/%s/best_ckpt.pth" % self.pretrained_name
                 ckpt_path = os.path.join(get_unicorn_datadir(), "..", filename)
+                #ckpt_path = os.path.join(get_unicorn_datadir(), "..", filename)
                 print("Loading pretrained backbone weights from %s" % ckpt_path)
                 ckpt = torch.load(ckpt_path, map_location='cpu')
                 missing_keys, unexpected_keys = self.model.backbone.backbone.load_state_dict(ckpt["model"], strict=False)

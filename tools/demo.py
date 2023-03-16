@@ -163,7 +163,7 @@ class Predictor(object):
                 try:
                     outputs = self.model(img)
                 except:
-                outputs, seq_dict = self.model(img)
+                    outputs, seq_dict = self.model(img)
                 if self.decoder is not None:
                     outputs = self.decoder(outputs, dtype=outputs.type())
                 outputs = postprocess(
@@ -265,7 +265,6 @@ def main(exp, args):
 
     file_name = os.path.join(exp.output_dir, args.experiment_name)
     os.makedirs(file_name, exist_ok=True)
-
     vis_folder = None
     if args.save_result:
         vis_folder = os.path.join(file_name, "vis_res")
@@ -284,9 +283,8 @@ def main(exp, args):
         exp.test_size = (args.tsize, args.tsize)
     if args.mask_thres is not None:
         exp.mask_thres = args.mask_thres
-
     model = exp.get_model()
-    # logger.info("Model Summary: {}".format(get_model_info(model, exp.test_size)))
+    #logger.info("Model Summary: {}".format(get_model_info(model, exp.test_size)))
 
     if args.device == "gpu":
         model.cuda()
@@ -300,8 +298,9 @@ def main(exp, args):
         else:
             ckpt_file = args.ckpt
         logger.info("loading checkpoint")
-        ckpt = torch.load(ckpt_file, map_location="cpu")
+        ckpt = torch.load(ckpt_file) #, map_location="cpu"
         # load the model state dict
+        print(f" debug state_dict {ckpt_file}")
         model.load_state_dict(ckpt["model"])
         logger.info("loaded checkpoint done.")
 

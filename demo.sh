@@ -1,0 +1,1 @@
+python ./tools/demo.py video --path ./assets/usain.mp4 -f ./exps/default/unicorn_track_large.py --ckpt ./Unicorn_outputs/unicorn_track_large/latest_ckpt.pth --device gpu --save_result

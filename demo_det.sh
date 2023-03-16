@@ -1,0 +1,1 @@
+python ./tools/demo.py video --path ./assets/usain.mp4 -f ./exps/default/unicorn_det_convnext_large_800x1280 --ckpt ./Unicorn_outputs/unicorn_det_convnext_large_800x1280/best_ckpt.pth --device gpu --save_result
